@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="media/styles.css">
+</head>
+<body>
+    <textarea id="input" placeholder="Enter text to chunk..."></textarea>
+    <button id="insert">Insert</button>
+    <script>
+        const vscode = acquireVsCodeApi();
+        document.getElementById('insert').addEventListener('click', () => {
+            const text = document.getElementById('input').value;
+            vscode.postMessage({ text });
+        });
+    </script>
+</body>
+</html>
