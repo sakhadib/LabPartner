@@ -1,71 +1,45 @@
-# labpartner README
+# Lab Partner
 
-This is the README for your extension "labpartner". After writing up a brief description, we recommend including the following sections.
+Lab Partner is a Visual Studio Code extension designed to help you copy and paste code snippets from anywhere to your code editor while keeping your actions discreet. The extension allows for step-by-step removal of pasted code upon pressing `Ctrl+Z`, which helps you avoid getting caught by your lab instructor.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Copy and Paste Anywhere**: Paste code snippets from anywhere (e.g., websites, documents) into the VS Code editor.
+- **Discreet Undo**: When you press `Ctrl+Z`, the pasted code is not removed at once. Instead, it is removed in small chunks, ensuring you won't raise suspicion.
+- **Helps During Lab Sessions**: This feature helps you avoid getting caught when copying code during coding sessions.
 
-For example if there is an image subfolder under your extension project workspace:
+## How to Use
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+1. **Install the Extension**: Open VS Code and search for `Lab Partner` in the Extensions Marketplace or install it manually from the `.vsix` file.
+2. **Copy Code Snippets**: Copy code snippets from anywhere (e.g., websites, documents).
+3. **Paste Code**: Paste the copied code into your VS Code editor.
+4. **Use `Ctrl+Z`**: When you want to undo your paste, press `Ctrl+Z`. The code will be undone step by step, instead of all at once.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- Visual Studio Code
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+This extension does not require any configuration settings.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- **Undo Step Size**: Currently, the chunks of code are removed randomly in sizes from 2–7 characters. Fine-tuning for a smoother experience might be considered in future releases.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+- Initial release of Lab Partner.
+- Allows step-by-step removal of pasted code when `Ctrl+Z` is pressed.
 
 ---
 
-## Following extension guidelines
+## Contributing
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+If you'd like to contribute to the development of Lab Partner, please feel free to open an issue or submit a pull request. Contributions are always welcome!
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+## License
 
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
