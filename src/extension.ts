@@ -4,27 +4,57 @@ import * as fs from 'fs';
 export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.commands.registerCommand('labpartner.showInsertPanel', () => {
+            const editor = vscode.window.activeTextEditor;
+            
+            if (!editor) {
+                vscode.window.showErrorMessage('Please open a file first!');
+                return;
+            }
+
             const panel = vscode.window.createWebviewPanel(
                 'labPartner',
                 'LabPartner',
                 vscode.ViewColumn.Beside,
-                { enableScripts: true }
+                { 
+                    enableScripts: true,
+                    retainContextWhenHidden: true
+                }
             );
 
             panel.webview.html = getWebviewContent(context);
             
+            // Store the original editor reference
+            let targetEditor = editor;
+
             panel.webview.onDidReceiveMessage(async (message) => {
+                if (message.error) {
+                    vscode.window.showErrorMessage(message.error);
+                    return;
+                }
+
                 const text = message.text;
-                const editor = vscode.window.activeTextEditor;
                 
-                if (editor && text) {
-                    insertTextWithChunks(editor, text);
-                    panel.dispose();
+                if (text) {
+                    try {
+                        // Verify editor is still valid
+                        if (!targetEditor || !targetEditor.document) {
+                            vscode.window.showErrorMessage('Original editor is no longer available!');
+                            panel.dispose();
+                            return;
+                        }
+                        
+                        await insertTextWithChunks(targetEditor, text);
+                        panel.dispose();
+                    } catch (error) {
+                        vscode.window.showErrorMessage(`Insertion failed: ${error}`);
+                    }
                 }
             });
         })
     );
 }
+
+
 
 function getWebviewContent(context: vscode.ExtensionContext): string {
     const stylesPath = vscode.Uri.file(
@@ -55,25 +85,29 @@ function splitTextIntoChunks(text: string): string[] {
     return chunks;
 }
 
-function insertTextWithChunks(editor: vscode.TextEditor, text: string) {
+async function insertTextWithChunks(editor: vscode.TextEditor, text: string) {
     const chunks = splitTextIntoChunks(text);
     let position = editor.selection.active;
-    
-    chunks.forEach(chunk => {
-        editor.edit(editBuilder => {
+
+    for (const chunk of chunks) {
+        // Use await to ensure sequential insertion
+        const success = await editor.edit(editBuilder => {
             editBuilder.insert(position, chunk);
-        }).then(success => {
-            if (success) {
-                const lines = chunk.split('\n');
-                if (lines.length > 1) {
-                    position = new vscode.Position(
-                        position.line + lines.length - 1,
-                        lines[lines.length - 1].length
-                    );
-                } else {
-                    position = position.translate(0, chunk.length);
-                }
-            }
         });
-    });
+
+        if (!success) {
+            throw new Error('Edit operation failed');
+        }
+
+        // Update position after successful insertion
+        const lines = chunk.split('\n');
+        if (lines.length > 1) {
+            position = new vscode.Position(
+                position.line + lines.length - 1,
+                lines[lines.length - 1].length
+            );
+        } else {
+            position = position.translate(0, chunk.length);
+        }
+    }
 }
