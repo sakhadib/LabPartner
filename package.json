@@ -3,6 +3,7 @@
   "displayName": "Lab Partner",
   "description": "",
   "version": "0.0.1",
+  "publisher": "sakhadib",
   "engines": {
     "vscode": "^1.97.0"
   },
@@ -18,6 +19,14 @@
         "title": "LabPartner: Insert Text with Chunks"
       }
     ]
+  },
+  "files": [
+    "out/**/*",
+    "media/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sakhadib/LabPartner.git"
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
